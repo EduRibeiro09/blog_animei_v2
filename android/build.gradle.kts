@@ -5,17 +5,12 @@ allprojects {
     }
 }
 
-val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
-rootProject.layout.buildDirectory.value(newBuildDir)
-
-subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
+// Garante que o projeto `:app` seja avaliado antes dos demais
 subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// Task de limpeza do projeto
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
